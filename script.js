@@ -1,0 +1,3 @@
+﻿function compiler() {
+    alert("test");
+}
