@@ -1,4 +1,11 @@
 ﻿
+body{
+    background-image: url(maths.jpg);
+}
+
+h1{
+    color:white;
+}
 
 textarea, button {
     display:block;
@@ -10,6 +17,8 @@ textarea {
     width: 600px;
     height: 200px
 }
+
+
 
 #result
 {
