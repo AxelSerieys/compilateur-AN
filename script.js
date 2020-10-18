@@ -1,3 +1,4 @@
 ﻿function compiler() {
-    alert("test");
+    var contenu = document.getElementById('txtInput').value;
+    alert(contenu);
 }
