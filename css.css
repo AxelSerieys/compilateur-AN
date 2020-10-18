@@ -1,0 +1,17 @@
+﻿
+
+textarea, button {
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+textarea {
+    width: 600px;
+    height: 200px
+}
+
+#result
+{
+    margin-top: 50px;
+}
