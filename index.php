@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -11,16 +11,10 @@
         <h1 style="text-align:center">Bienvenue sur ce compilateur super amusant</h1>
     </div>
 
-    <div id="input">
-        <textarea id="txtInput" placeholder="Ecrivez votre formule mathématique ici" rows="5"></textarea>
-    </div>
-    <div name="bouton">
-        <button name="compiler" onclick="compiler()">Convertir</button>
-    </div>
-
-    <div id="result">
-        <textarea id="txtResult" readonly placeholder="Resultat conversion"></textarea>
-    </div>
+    <form action="result.php" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" required/><br/><br/>
+        <input type="submit" value="Compiler"/>
+    </form>
 
     <script type="text/javascript" src="script.js"></script>
 </body>
