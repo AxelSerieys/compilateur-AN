@@ -23,6 +23,7 @@ class Logger {
     function resultat($string) {
         $this->log_write("RESULTAT", $string);
         $this->log_write("FIN", "==========");
+        $this->print_empty_line();
     }
 
     function erreur($string, $line, $col) {
@@ -36,6 +37,10 @@ class Logger {
 
     function debug($string) {
         $this->log_write("DEBUG", $string);
+    }
+
+    function print_empty_line() {
+        file_put_contents(self::FILE_NAME, "\n", FILE_APPEND);
     }
 
     function log_write($title, $string) {

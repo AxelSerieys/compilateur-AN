@@ -2,14 +2,6 @@
 2 + 6 * 3 - 4
 2 + 6 * (3 - 4) + 3/4
 
-// 2 6 3 4 - * +
-// 2 6 -1 * +
-// 2 -6 +
-// -4
+// Ceci est un commentaire, il n'est pas interpreté par le compilateur.
 
-//2+6*3-4
-
-// 2 6 3 * + 4 -
-
-
-//2+3
+23 + 27

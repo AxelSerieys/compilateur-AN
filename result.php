@@ -40,13 +40,14 @@ function parse($string) {
     $PRIORITES[")"] = 0;
 
     //$string = str_replace(' ', '', $string);
-    $chars = str_split($string);
-
+    //$chars = str_split($string);
+    $chars = calcul_as_array(trim($string));
     $logger->calculer(trim($string));
 
     // On va tester le caractère courant
     $COL = 0;
     foreach($chars as $char) {
+        //echo "$chars[2]";
         $COL++;
 
         // Si c'est un espace, on passe au suivant
@@ -151,6 +152,29 @@ function parse($string) {
 
     $logger->resultat($pile_operandes[0]);
     return $pile_operandes[0];
+}
+
+function calcul_as_array($calcul) {
+    $arr = array();
+    $index = 0;
+    foreach(str_split($calcul) as $char) {
+        if($char == " " || $char == "\n")
+            continue;
+
+        // Tous les caractères qui peuvent séparer les nombres
+        if($char == "+" || $char == "-" || $char == "/" || $char == "*" || $char == "(" || $char == ")") {
+            $index++;
+            $arr[$index] = $char;
+            $index++;
+        } else {
+            if(!isset($arr[$index])) {
+                $arr[$index] = "";
+            }
+            $arr[$index] .= $char;
+        }
+    }
+
+    return $arr;
 }
 
 function is_operande($pile_operandes) {
