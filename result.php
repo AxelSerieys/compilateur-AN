@@ -4,10 +4,16 @@ require_once "Logger.php";
 $logger = new Logger();
 
 // Redirection si le fichier n'a pas été choisi
+// Si on a cliqué sur le bouton compiler
 if(!isset($_FILES["file"]["name"])) {
     header("Location: /index.php");
 }
-$file_name = $_FILES["file"]["name"];
+$file_name = $_FILES["file"]["name"]; //a supprimer
+
+//$txtarea = $_POST["textarea"]
+// $file = $txtarea
+//Fonction pour vider le fichier avant ?
+file_put_contents("Compil.txt", $txtarea, FILE_APPEND);
 
 $LINE = 0;
 // Début de la lecture
