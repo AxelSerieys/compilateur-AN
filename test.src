@@ -2,6 +2,8 @@
 2 + 6 * 3 - 4
 2 + 6 * (3 - 4) + 3/4
 
-// Ceci est un commentaire, il n'est pas interpreté par le compilateur.
+// Ceci est un commentaire, il n'est pas interpreté par le compilateur, ni les lignes vides.
 
 23 + 27 / 001
+sin(3+5*4)
+1/0

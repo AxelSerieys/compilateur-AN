@@ -28,8 +28,9 @@ $logger->fin();
 // Utilisation de : http://www.learn4master.com/algorithms/convert-infix-notation-to-reverse-polish-notation-java
 // https://github.com/rswier/c4/blob/master/c4.c
 // https://www.dcode.fr/reverse-polish-notation
-function parse($string) {
+function parse($string, $print_result = true, $in_function = false, $log_offset = "") {
     global $logger, $LINE;
+    $logger->setOffset($log_offset);
     $pile_operations = array();
     $pile_operandes = array();
     $PRIORITES["/"] = 5;
@@ -39,15 +40,13 @@ function parse($string) {
     $PRIORITES["("] = 0;
     $PRIORITES[")"] = 0;
 
-    //$string = str_replace(' ', '', $string);
-    //$chars = str_split($string);
     $chars = calcul_as_array(trim($string));
     $logger->calculer(trim($string));
 
     // On va tester le caractère courant
     $COL = 0;
-    foreach($chars as $char) {
-        //echo "$chars[2]";
+    for($c = 0; $c < sizeof($chars); $c++) {
+        $char = $chars[$c];
         $COL++;
 
         // Si c'est un espace, on passe au suivant
@@ -57,6 +56,9 @@ function parse($string) {
 
         // Si c'est une parenthèse ouvrante
         if("(" == $char) {
+            if($in_function) {
+                $pile_operandes[sizeof($pile_operandes)-1] .= "(";
+            }
             array_unshift($pile_operations, $char);
             continue;
         }
@@ -67,21 +69,39 @@ function parse($string) {
                 array_push($pile_operandes, array_shift($pile_operations));
             }
             array_shift($pile_operations);
+            if($in_function) {
+                $pile_operandes[sizeof($pile_operandes)-1] .= ")";
+                $in_function = false;
+            }
             continue;
         }
 
         // Si c'est un opérateur
         if(array_key_exists($char, $PRIORITES)) {
-            while(sizeof($pile_operations) > 0 && $PRIORITES[$char] <= $PRIORITES[$pile_operations[0]]) {
-                array_push($pile_operandes, array_shift($pile_operations));
+            if($in_function) {
+                $pile_operandes[sizeof($pile_operandes)-1] .= $char;
+            } else {
+                while (sizeof($pile_operations) > 0 && $PRIORITES[$char] <= $PRIORITES[$pile_operations[0]]) {
+                    array_push($pile_operandes, array_shift($pile_operations));
+                }
+                array_unshift($pile_operations, $char);
             }
-            array_unshift($pile_operations, $char);
             continue;
         }
 
         // Si c'est un nombre
         if(is_numeric($char)) {
+            if($in_function) {
+                $pile_operandes[sizeof($pile_operandes) - 1] .= $char;
+            } else {
+                array_push($pile_operandes, $char);
+            }
+            continue;
+        }
+
+        if($char == "sin") {
             array_push($pile_operandes, $char);
+            $in_function = true;
             continue;
         }
 
@@ -93,10 +113,18 @@ function parse($string) {
         array_push($pile_operandes, array_shift($pile_operations));
     }
 
-    $logger->RPN(implode(' ', $pile_operandes));
+    $rpn = implode(' ', $pile_operandes);
+    if(trim($rpn) !== trim($string)) {
+        $logger->RPN($rpn);
+    }
 
     // Réalisation du calcul
     while(sizeof($pile_operandes) > 2) {
+        // Si c'est une fonction sinus
+        if(($ret = preg_filter('/sin\((.*)\)/', '$1', $pile_operandes[0])) != "") {
+            echo "AAAAAH";
+        }
+
         if(is_operande($pile_operandes)) {
             for ($i = 0; $i < sizeof($pile_operandes); $i++) {
                 if (array_key_exists($pile_operandes[$i], $PRIORITES)) { // Si on est sur une opération,
@@ -137,6 +165,8 @@ function parse($string) {
                             die();
                     }
                     break;
+                } else if($pile_operandes[$i] == "sin") {
+                    echo "COUCOU";die();
                 }
             }
         } else {
@@ -145,31 +175,46 @@ function parse($string) {
         }
     }
 
-    if(sizeof($pile_operandes) == 2) {
-        $logger->erreur("Il manque une opérande dans la file !", $LINE, $COL);
-        die();
+    if(sizeof($pile_operandes) <= 2) {
+        if(($val = preg_filter('/sin\((.*)\)/', '$1', $pile_operandes[0])) != "") {
+            $logger->calcul($pile_operandes[0]);
+            $res = parse($val, false, false, "    ");
+            $logger->setOffset("");
+            $log_offset = "";
+            $pile_operandes[0] = sin($res);
+        }
+        if(sizeof($pile_operandes) == 1) { // S'il ne reste plus qu'un truc, c'est le résultat
+            if(!$print_result) {
+                $logger->resultat($pile_operandes[0], false);
+            } else {
+                $logger->resultat($pile_operandes[0], true);
+            }
+            return $pile_operandes[0];
+        } else {
+            $logger->erreur("Il manque une opérande dans la file !", $LINE, $COL);
+            die();
+        }
     }
-
-    $logger->resultat($pile_operandes[0]);
-    return $pile_operandes[0];
 }
 
 function calcul_as_array($calcul) {
     $arr = array();
     $index = 0;
-    foreach(str_split($calcul) as $char) {
+
+    for($i = 0; $i < strlen($calcul); $i++) {
+        $char = $calcul[$i];
         if($char == " " || $char == "\n")
             continue;
 
         // Tous les caractères qui peuvent séparer les nombres
         if($char == "+" || $char == "-" || $char == "/" || $char == "*" || $char == "(" || $char == ")") {
-            $index++;
+            if(strlen($arr[$index]) > 0)
+                $index++;
             $arr[$index] = $char;
             $index++;
         } else {
-            if(!isset($arr[$index])) {
+            if(!isset($arr[$index]))
                 $arr[$index] = "";
-            }
             $arr[$index] .= $char;
         }
     }

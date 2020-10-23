@@ -2,10 +2,12 @@
 
 class Logger {
     const FILE_NAME = "log.txt";
+    private $offset = "";
 
     function __construct() {
+        $offset = "";
         $this->empty_log();
-        $this->log_write("DEBUT", "DE LA COMPILATION (" . date('d/m/yy - H:m:s') . ")");
+        $this->log("DÉBUT DE LA COMPILATION (" . date('d/m/yy - H:m:s') . ")");
     }
 
     function calcul($string) {
@@ -20,10 +22,12 @@ class Logger {
         $this->log_write("RPN", $string);
     }
 
-    function resultat($string) {
+    function resultat($string, $fin = true) {
         $this->log_write("RESULTAT", $string);
-        $this->log_write("FIN", "==========");
-        $this->print_empty_line();
+        if($fin) {
+            $this->log_write("FIN", "==========");
+            $this->print_empty_line();
+        }
     }
 
     function erreur($string, $line, $col) {
@@ -31,8 +35,16 @@ class Logger {
         $this->log_write("FIN", "==========");
     }
 
+    function setOffset($offset) {
+        $this->offset = $offset;
+    }
+
     function fin() {
-        $this->log_write("FIN", "DE LA COMPILATION (" . date('d/m/yy - H:m:s') . ")");
+        $this->log("FIN DE LA COMPILATION (" . date('d/m/yy - H:m:s') . ")");
+    }
+
+    function log($string) {
+        $this->log_write("LOG", $string);
     }
 
     function debug($string) {
@@ -44,7 +56,7 @@ class Logger {
     }
 
     function log_write($title, $string) {
-        $toprint = "[$title] : $string\n";
+        $toprint = "$this->offset[$title] : $string\n";
         file_put_contents(self::FILE_NAME, $toprint, FILE_APPEND);
     }
 
