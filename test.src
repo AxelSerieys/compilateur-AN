@@ -1,9 +1,7 @@
-2 + 6 * (3 - 4)
-2 + 6 * 3 - 4
-2 + 6 * (3 - 4) + 3/4
+sin(2)
+2+4
+3+3+6
+test
+Let's go
 
-// Ceci est un commentaire, il n'est pas interpreté par le compilateur, ni les lignes vides.
 
-23 + 27 / 001
-sin(3+5*4)
-1/0

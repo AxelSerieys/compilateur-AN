@@ -1,5 +1,6 @@
 <?php
 
+const FILE_COMPIL = "test.src";
 require_once "Logger.php";
 $logger = new Logger();
 
@@ -9,9 +10,17 @@ if(!isset($_FILES["file"]["name"])) {
 }
 $file_name = $_FILES["file"]["name"];
 
+$txtarea = $_POST['texte'];
+//Copie de emptyLog() pour le fichier test.src
+$compilFile = fopen(FILE_COMPIL, 'w');
+fclose($compilFile);
+//Copie de log_write() pour le fichier test.src
+$towrite = "$txtarea\n";
+file_put_contents(FILE_COMPIL, $towrite, FILE_APPEND);
+
 $LINE = 0;
 // Début de la lecture
-if($file = fopen($file_name, "r")) {
+if($file = fopen(FILE_COMPIL, "r")) {
     while(!feof($file)) { // Tant qu'on est pas à la fin du fichier...
         $line = fgets($file);
         $LINE++;
