@@ -18,14 +18,14 @@
 	<div id="form">
 		<form action="result.php" method="POST" enctype="multipart/form-data">
 			<div>
-				<textarea placeholder="Renseignez ici vos calculs &agrave; compiler" name="texte" id="texte"><?php echo @$contents ; ?></textarea>
+				<textarea placeholder="Renseignez ici vos calculs &agrave; compiler" name="texte" id="texte"></textarea>
 				<p>
 					Bienvenue sur cette page de compilateur de notation polonaise ! 
 					Remplissez vous m&ecirc;me votre code dans la zone pr&eacute;vue pour, ou bien choisissez un fichier contenant votre code et uploadez le afin de le compiler !
 					</br></br>Vous aurez ensuite la possibilit&eacute; de t&eacute;l&eacute;charger le r&eacute;sultat sur votre machine.
 				</p>
 			</div>
-			<input type="file" name="file" onchange="readTextFile('test.src')"/><br/><br/><br/>
+			<input type="file" name="file" id="file"/><br/><br/><br/>
 			<input type="submit" value="Compiler"/>
 		</form>
 	</div>
@@ -38,22 +38,14 @@
     <script type="text/javascript" src="script.js"></script>
 </body>
 <script>
-function readTextFile(file)
-{
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", file, false);
-    rawFile.onreadystatechange = function ()
-    {
-        if(rawFile.readyState === 4)
-        {
-            if(rawFile.status === 200 || rawFile.status == 0)
-            {
-                var allText = rawFile.responseText;
-                document.getElementById("texte").innerHTML = allText;
-            }
-        }
-    }
-    rawFile.send(null);
-}
+document.getElementById('file').addEventListener('change', function() 
+{ 
+    var fr=new FileReader(); 
+    fr.onload=function(){ 
+        document.getElementById('texte').innerHTML=fr.result; 
+    } 
+              
+    fr.readAsText(this.files[0]); 
+}) 
 </script>
 </html>
