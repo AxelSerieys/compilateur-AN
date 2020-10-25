@@ -26,6 +26,7 @@ function demarrer_tests() {
     test12();
     test13();
     test14();
+    test15();
 
     conclusion();
 }
@@ -110,7 +111,51 @@ function test13() {
 
 function test14() {
     $calc = "3 > 2";
+    $expected = "true";
+    test_wrapper($calc, $expected);
+
+    $calc = "3 > 4";
     $expected = "false";
+    test_wrapper($calc, $expected);
+
+    $calc = "3 >= 3";
+    $expected = "true";
+    test_wrapper($calc, $expected);
+
+    $calc = "2 < 2";
+    $expected = "false";
+    test_wrapper($calc, $expected);
+
+    $calc = "2 <= 2";
+    $expected = "true";
+    test_wrapper($calc, $expected);
+}
+
+function test15() {
+    $calc = "if(2 > 1) {";
+    $expected = NULL;
+    test_wrapper($calc, $expected);
+
+    $calc = "2+3";
+    $expected = 5;
+    test_wrapper($calc, $expected);
+
+    $calc = "}";
+    $expected = NULL;
+    test_wrapper($calc, $expected);
+
+    // ----- Au dessus, la condition est vraie, en dessous elle est fausse.
+
+    $calc = "if(2 > 3) {";
+    $expected = NULL;
+    test_wrapper($calc, $expected);
+
+    $calc = "2+3";
+    $expected = NULL;
+    test_wrapper($calc, $expected);
+
+    $calc = "}";
+    $expected = NULL;
     test_wrapper($calc, $expected);
 }
 
@@ -127,13 +172,13 @@ function test_wrapper($calc, $expected) {
     $logger->test(++$testId, $calc);
     $ret = parse($calc, false);
     if(is_string($ret)) {
-        if(strcmp($ret, $expected)) {
+        if($ret == $expected) {
             echo "Succès<br/>";
             $logger->resultat("SUCCÈS\n", false);
             $SUCCES++;
         } else {
             echo "Erreur<br/>";
-            $logger->resultat("ERREUR : Obtenu '" . round($ret, $PRECISION) . "' mais attendu '" . round($expected, $PRECISION) . "'.\n", false);
+            $logger->resultat("ERREUR : Obtenu '$ret' mais attendu '$expected'.\n", false);
             $ECHECS++;
         }
     } else {

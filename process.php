@@ -3,12 +3,13 @@
 // Utilisation de : http://www.learn4master.com/algorithms/convert-infix-notation-to-reverse-polish-notation-java
 // https://github.com/rswier/c4/blob/master/c4.c
 // https://www.dcode.fr/reverse-polish-notation
-function parse($string, $print_result = true, $in_function = false, $log_offset = "") {
+function parse($string, $print_result = true, $in_function = false, $log_offset = "", $ploop_execute = NULL) {
     global $logger, $LINE;
     $logger->setOffset($log_offset);
     $pile_operations = array();
     $pile_operandes = array();
     $open_parentheses = 0;
+    $loop_execute = $ploop_execute; // NULL si on est PAS dans une boucle, 0 si on doit exécuter le corps de la boucle, 1 sinon.
     $PRIORITES["/"] = 5;
     $PRIORITES["*"] = 5;
     $PRIORITES["+"] = 4;
@@ -23,11 +24,46 @@ function parse($string, $print_result = true, $in_function = false, $log_offset 
     // PREPROCESSEUR
     $string = str_replace("%pi%", pi(), $string);
 
+    $string = trim($string);
+
     // si c'est un print
     if(($ret = preg_filter('/^print \"(.*)\"$/', '$1', $string)) != "") {
         $ret = str_replace("\\n", "<br/>", $ret);
         $logger->print($ret);
         echo "--><i>$ret</i><br/>";
+        return false;
+    }
+
+    // Si c'est une condition
+    if(($ret = preg_filter('/^if ?\((.*)\) \{$/', '$1', $string)) != "") {
+        global $loop_execute;
+        if(parse($ret, false) == "true") {
+            $loop_execute = 0;
+            // On effectue le traitement
+        } else {
+            // On n'effectue pas le traitement
+            $loop_execute = 1;
+
+        }
+        return false;
+    }
+
+    global $loop_execute;
+
+    if($loop_execute != NULL) {
+        if($string != "}") {
+            if($loop_execute == 0) {
+                parse($string, false, false, "", true);
+            }
+            return false;
+        } else {
+            $loop_execute = false;
+            return false;
+        }
+    }
+
+    if($string == "}") {
+        $loop_execute = false;
         return false;
     }
 
@@ -175,7 +211,6 @@ function parse($string, $print_result = true, $in_function = false, $log_offset 
                             $pile_operandes[$i] = $ope1 / $ope2;
                             break;
                         case "<":
-                            $logger->calcul($ope1 . "<" . $ope2);
                             if($ope2 == "=")
                                 $pile_operandes[$i] = ($ope1 <= $pile_operandes[$i+1]) ? "true" : "false";
                             else
@@ -298,11 +333,13 @@ function calcul_as_array($calcul) {
 
         // Tous les caractères qui peuvent séparer les nombres
         if($char == "+" || $char == "-" || $char == "/" || $char == "*" || $char == "(" || $char == ")" || $char == ">"
-        || $char == "<" || $char == "<=" || $char == ">=") {
-            if(strlen($arr[$index]) > 0)
+        || $char == "<") {
+            if (strlen($arr[$index]) > 0)
                 $index++;
             $arr[$index] = $char;
             $index++;
+        } else if($char == "=" && ($arr[$index-1] == "<" || $arr[$index-1] == ">")) {
+            $arr[$index-1] .= "=";
         } else {
             if(!isset($arr[$index]))
                 $arr[$index] = "";

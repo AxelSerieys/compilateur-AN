@@ -1,3 +1,6 @@
 log.txt
 .idea
 .project
+tests/tests.log
+/bin/
+test.src

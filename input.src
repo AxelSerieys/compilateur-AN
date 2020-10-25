@@ -1,0 +1,29 @@
+print "Même équation avec et sans parentèses"
+2 + 6 * (3 - 4)
+2 + 6 * 3 - 4
+2 + 6 * (3 - 4) + 3/4
+
+// Ceci est un commentaire, il n'est pas interpreté par le compilateur, ni les lignes vides.
+
+23 + 27 / 001
+
+print "\n----- Test des fonctions -----"
+sin((3+4)*5 + 2)
+3 * sin((3+4)*5 + 2)
+cos((3+4)*5)
+tan(3+2)
+log(5+7) * 4 // Un commentaire sur une ligne ne pose pas de problème
+sin(2) + cos(3)
+cos(1.5)
+cos(0)
+cos(2*%pi%)
+exp(5+2) * 2
+
+print "\n----- Utilisation d'une variable de préprocesseur -----"
+2*%pi%
+
+print "\n----- Conditions -----"
+if(3 <= 3) {
+    2+3
+    4+5
+}

@@ -8,7 +8,7 @@ class Logger {
         $offset = "";
         $this->FILE_NAME = $FILE_NAME;
         $this->empty_log();
-        $this->log("DÉBUT DE LA COMPILATION (" . date('d/m/yy - H:m:s') . ")");
+        $this->log("DÉBUT DE LA COMPILATION (" . date('d/m/yy - H:i:s') . ")");
     }
 
     function test($id, $string) {
@@ -45,7 +45,7 @@ class Logger {
     }
 
     function fin() {
-        $this->log("FIN DE LA COMPILATION (" . date('d/m/yy - H:m:s') . ")");
+        $this->log("FIN DE LA COMPILATION (" . date('d/m/yy - H:i:s') . ")");
     }
 
     function log($string) {
