@@ -29,7 +29,6 @@
 			<input type="submit" value="Compiler"/>
 		</form>
 	</div>
-	<button onclick="readTextFile('test.src')">Bonjour</button>
 
 	<div id="explications">
 		<h2>Qu'est ce que la notation polonaise ?</h2>
