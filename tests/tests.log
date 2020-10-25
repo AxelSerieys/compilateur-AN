@@ -1,0 +1,132 @@
+[LOG] : DÉBUT DE LA COMPILATION (25/10/2020 - 15:10:08)
+[TEST-1] : 2+3
+[ENTRÉE] : 2+3
+[RPN] : 2 3 +
+[CALCUL] : 2+3
+[RESULTAT] : 5
+[RESULTAT] : SUCCÈS
+
+[TEST-2] : sin(5)
+[ENTRÉE] : sin(5)
+[CALCUL] : sin(5)
+    [ENTRÉE] : 5
+    [RESULTAT] : 5
+[RESULTAT] : -0.95892427466314
+[RESULTAT] : SUCCÈS
+
+[TEST-3] : 2 + 6 * (3 - 4)
+[ENTRÉE] : 2 + 6 * (3 - 4)
+[RPN] : 2 6 3 4 - * +
+[CALCUL] : 3-4
+[CALCUL] : 6*-1
+[CALCUL] : 2+-6
+[RESULTAT] : -4
+[RESULTAT] : SUCCÈS
+
+[TEST-4] : 2 + 6 * 3 - 4
+[ENTRÉE] : 2 + 6 * 3 - 4
+[RPN] : 2 6 3 * + 4 -
+[CALCUL] : 6*3
+[CALCUL] : 2+18
+[CALCUL] : 20-4
+[RESULTAT] : 16
+[RESULTAT] : SUCCÈS
+
+[TEST-5] : 2 + 6 * (3 - 4) + 3/4
+[ENTRÉE] : 2 + 6 * (3 - 4) + 3/4
+[RPN] : 2 6 3 4 - * + 3 4 / +
+[CALCUL] : 3-4
+[CALCUL] : 6*-1
+[CALCUL] : 2+-6
+[CALCUL] : 3/4
+[CALCUL] : -4+0.75
+[RESULTAT] : -3.25
+[RESULTAT] : SUCCÈS
+
+[TEST-6] : 23 + 27 / 001
+[ENTRÉE] : 23 + 27 / 001
+[RPN] : 23 27 001 / +
+[CALCUL] : 27/001
+[CALCUL] : 23+27
+[RESULTAT] : 50
+[RESULTAT] : SUCCÈS
+
+[TEST-7] : 3 * sin((3+4)*5 + 2)
+[ENTRÉE] : 3 * sin((3+4)*5 + 2)
+[RPN] : 3 sin((3+4)*5+2) *
+[CALCUL] : sin((3+4)*5+2)
+    [ENTRÉE] : (3+4)*5+2
+    [RPN] : 3 4 + 5 * 2 +
+    [CALCUL] : 3+4
+    [CALCUL] : 7*5
+    [CALCUL] : 35+2
+    [RESULTAT] : 37
+[CALCUL] : 3*-0.643538133357
+[RESULTAT] : -1.930614400071
+[RESULTAT] : SUCCÈS
+
+[TEST-8] : cos((3+4)*5)
+[ENTRÉE] : cos((3+4)*5)
+[CALCUL] : cos((3+4)*5)
+    [ENTRÉE] : (3+4)*5
+    [RPN] : 3 4 + 5 *
+    [CALCUL] : 3+4
+    [CALCUL] : 7*5
+    [RESULTAT] : 35
+[RESULTAT] : -0.90369220509151
+[RESULTAT] : SUCCÈS
+
+[TEST-9] : tan(3+2)
+[ENTRÉE] : tan(3+2)
+[CALCUL] : tan(3+2)
+    [ENTRÉE] : 3+2
+    [RPN] : 3 2 +
+    [CALCUL] : 3+2
+    [RESULTAT] : 5
+[RESULTAT] : -3.3805150062466
+[RESULTAT] : SUCCÈS
+
+[TEST-10] : sin(2) + cos(3)
+[ENTRÉE] : sin(2) + cos(3)
+[RPN] : sin(2) cos(3) +
+[CALCUL] : sin(2)
+    [ENTRÉE] : 2
+    [RESULTAT] : 2
+[CALCUL] : cos(3)
+    [ENTRÉE] : 3
+    [RESULTAT] : 3
+[CALCUL] : 0.90929742682568+-0.98999249660045
+[RESULTAT] : -0.080695069774764
+[RESULTAT] : SUCCÈS
+
+[TEST-11] : cos(1.5)
+[ENTRÉE] : cos(1.5)
+[CALCUL] : cos(1.5)
+    [ENTRÉE] : 1.5
+    [RESULTAT] : 1.5
+[RESULTAT] : 0.070737201667703
+[RESULTAT] : SUCCÈS
+
+[TEST-12] : cos(2*%pi%)
+[ENTRÉE] : cos(2*3.1415926535898)
+[CALCUL] : cos(2*3.1415926535898)
+    [ENTRÉE] : 2*3.1415926535898
+    [RPN] : 2 3.1415926535898 *
+    [CALCUL] : 2*3.1415926535898
+    [RESULTAT] : 6.2831853071796
+[RESULTAT] : 1
+[RESULTAT] : SUCCÈS
+
+[TEST-13] : print "Test"
+[PRINT] : Test
+[RESULTAT] : SUCCÈS
+
+[TEST-14] : 3 > 2
+[ENTRÉE] : 3 > 2
+[RPN] : 3 2 >
+[CALCUL] : 3>2
+[RESULTAT] : true
+[RESULTAT] : SUCCÈS
+
+[LOG] : FIN DE LA COMPILATION (25/10/2020 - 15:10:08)
+[LOG] : SUCCÈS : 14, ECHECS : 0
