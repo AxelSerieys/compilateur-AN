@@ -1,13 +1,18 @@
 <?php
 
 class Logger {
-    const FILE_NAME = "log.txt";
+    private $FILE_NAME;
     private $offset = "";
 
-    function __construct() {
+    function __construct($FILE_NAME = "log.txt") {
         $offset = "";
+        $this->FILE_NAME = $FILE_NAME;
         $this->empty_log();
         $this->log("DÉBUT DE LA COMPILATION (" . date('d/m/yy - H:m:s') . ")");
+    }
+
+    function test($id, $string) {
+        $this->log_write("TEST-$id", $string);
     }
 
     function calcul($string) {
@@ -51,17 +56,25 @@ class Logger {
         $this->log_write("DEBUG", $string);
     }
 
+    function print($string) {
+        $this->log_write("PRINT", $string);
+    }
+
+    function input($string) {
+        $this->log_write("ENTRÉE", $string);
+    }
+
     function print_empty_line() {
-        file_put_contents(self::FILE_NAME, "\n", FILE_APPEND);
+        file_put_contents($this->FILE_NAME, "\n", FILE_APPEND);
     }
 
     function log_write($title, $string) {
         $toprint = "$this->offset[$title] : $string\n";
-        file_put_contents(self::FILE_NAME, $toprint, FILE_APPEND);
+        file_put_contents($this->FILE_NAME, $toprint, FILE_APPEND);
     }
 
     function empty_log() {
-        $fh = fopen(self::FILE_NAME, 'w');
+        $fh = fopen($this->FILE_NAME, 'w');
         fclose($fh);
     }
 }
