@@ -1,10 +1,17 @@
 <?php
+
+$VARIABLES = array();
+$in_for = false;
+$for_variable = NULL;
+$for_values = array();
+$for_instructions = array();
+
 // RESSOURCES :
 // Utilisation de : http://www.learn4master.com/algorithms/convert-infix-notation-to-reverse-polish-notation-java
 // https://github.com/rswier/c4/blob/master/c4.c
 // https://www.dcode.fr/reverse-polish-notation
 function parse($string, $print_result = true, $in_function = false, $log_offset = "", $ploop_execute = NULL) {
-    global $logger, $LINE;
+    global $logger, $LINE, $VARIABLES, $in_for, $for_variable, $for_values, $for_instructions;
     $logger->setOffset($log_offset);
     $pile_operations = array();
     $pile_operandes = array();
@@ -20,24 +27,68 @@ function parse($string, $print_result = true, $in_function = false, $log_offset 
     $PRIORITES[">"] = 4;
     $PRIORITES[">="] = 4;
     $PRIORITES["<="] = 4;
+    $PRIORITES["=="] = 4;
+    $PRIORITES["=="] = 4;
 
     // PREPROCESSEUR
     $string = str_replace("%pi%", pi(), $string);
 
     $string = trim($string);
 
+    $chars = calcul_as_array(trim($string));
+    $logger->input(trim($string));
+
+    // 1 : On enregistre toutes les lignes du for dans une variable
+    // 2 : On les exécute 1 à 1 tant qu'il y a des i
+    if($in_for) {
+        if($string == "endfor") {
+            $logger->print_empty_line();
+            $in_for = false;
+            while(sizeof($for_values) != 0) {
+                $VARIABLES[$for_variable] = array_shift($for_values);
+                /*$log_offset = "";
+                $logger->setOffset("");*/
+                $logger->supprimer_tab_offset();
+                $logger->pour("$$for_variable", $VARIABLES[$for_variable]);
+                for($ligne = 0; $ligne < sizeof($for_instructions); $ligne++) { // Pour chaque
+                    $res = parse($for_instructions[$ligne], true, false, "    ");
+                    if($res !== false ) {
+                        echo "$for_instructions[$ligne] = $res<br/>";
+                    }
+                }
+            }
+            return false;
+        } else {
+            array_push($for_instructions, $string);
+            return false;
+        }
+    }
+
     // si c'est un print
     if(($ret = preg_filter('/^print \"(.*)\"$/', '$1', $string)) != "") {
+        while(($varname = preg_filter('/^\$\{(.*)\}$/', '$1', $ret)) != "") {
+            $ret = preg_replace("@\\$\{(.*)\}@", $VARIABLES[$varname], trim($ret));
+        }
         $ret = str_replace("\\n", "<br/>", $ret);
         $logger->print($ret);
         echo "--><i>$ret</i><br/>";
         return false;
     }
 
+    // Si on affecte une valeur à une variable
+    if(($ret = preg_filter('/^\$(.*) ?\= ?(.*)$/', '$1;$2', $string)) != "") {
+        $name = explode(";", $ret)[0];
+        $val = parse(explode(";", $ret)[1], false);
+        nouvelle_variable(trim($name), trim($val));
+        return false;
+    }
+
     // Si c'est une condition
     if(($ret = preg_filter('/^if ?\((.*)\) \{$/', '$1', $string)) != "") {
         global $loop_execute;
-        if(parse($ret, false) == "true") {
+        $res = parse($ret, false);
+        $logger->cond($ret, $res);
+        if($res == "true") {
             $loop_execute = 0;
             // On effectue le traitement
         } else {
@@ -48,6 +99,20 @@ function parse($string, $print_result = true, $in_function = false, $log_offset 
         return false;
     }
 
+    // Si c'est un for
+    if(($ret = preg_filter("/^ *for *\(\\$(.*)= *\[(.*); *(.*)\]\).*$/", "$1;$2;$3", $string)) != "") {
+        global $in_for, $for_variable;
+        $params = explode(";", $ret); // case 0 : nom de la variable. case 1 : valeur initiale de la var. case 2 : valeur finale
+        for($i = $params[1]; $i <= $params[2]; $i++) {
+            array_push($for_values, $i);
+        }
+
+        $for_variable = trim($params[0]);
+        $VARIABLES[$for_variable] = NULL;
+        $in_for = true;
+        return false;
+    }
+
     global $loop_execute;
 
     if($loop_execute != NULL) {
@@ -55,20 +120,16 @@ function parse($string, $print_result = true, $in_function = false, $log_offset 
             if($loop_execute == 0) {
                 parse($string, false, false, "", true);
             }
-            return false;
         } else {
             $loop_execute = false;
-            return false;
         }
+        return false;
     }
 
     if($string == "}") {
         $loop_execute = false;
         return false;
     }
-
-    $chars = calcul_as_array(trim($string));
-    $logger->input(trim($string));
 
     // On va tester le caractère courant
     $COL = 0;
@@ -117,6 +178,11 @@ function parse($string, $print_result = true, $in_function = false, $log_offset 
                 array_unshift($pile_operations, $char);
             }
             continue;
+        }
+
+        // Si c'est une variable
+        if(array_key_exists(str_replace("$", "", $char), $VARIABLES)) {
+            $char = $VARIABLES[str_replace("$", "", $char)];
         }
 
         // Si c'est un nombre
@@ -228,6 +294,10 @@ function parse($string, $print_result = true, $in_function = false, $log_offset 
                             $logger->calcul($ope1 . "<=" . $ope2);
                             $pile_operandes[$i] = ($ope1 <= $ope2) ? "true" : "false";
                             break;
+                        case "==":
+                            $logger->calcul("$ope1 == $ope2");
+                            $pile_operandes[$i] = ($ope1 == $ope2) ? "true" : "false";
+                            break;
                         default:
                             $logger->erreur("OPERATION INCONNUE : '" . $operation . "'", $LINE, $COL);
                             die();
@@ -272,12 +342,34 @@ function parse($string, $print_result = true, $in_function = false, $log_offset 
     }
 }
 
+function nouvelle_variable($nom, $valeur) {
+    global $VARIABLES, $logger, $LINE, $COL;
+    if(!array_key_exists($nom, $VARIABLES)) {
+        $VARIABLES[$nom] = $valeur;
+        $logger->var($nom, $valeur);
+    } else {
+        $logger->erreur("Une variable portant le même nom existe déjà : $nom", $LINE, $COL);
+    }
+}
+
+function update_variable($nom, $valeur) {
+    global $VARIABLES, $logger, $LINE, $COL;
+    if(array_key_exists($nom, $VARIABLES)) {
+        $VARIABLES[$nom] = $valeur;
+        $logger->var($nom, $valeur);
+    } else {
+        $logger->erreur("La variable $nom n'a pas été initialisée.", $LINE, $COL);
+    }
+}
+
 function fc_sin($param) {
     global $logger;
     global $pile_operandes;
-    $log_offset = "    ";
+    $log_offset = $logger->ajouter_tab_offset();
+    //$log_offset = "    ";
     $res = parse($param, false, false, $log_offset);
-    $log_offset = "";
+    $log_offset = $logger->supprimer_tab_offset();
+    //$log_offset = "";
     $logger->setOffset($log_offset);
     return sin($res);
 }
@@ -285,9 +377,11 @@ function fc_sin($param) {
 function fc_cos($param) {
     global $logger;
     global $pile_operandes;
-    $log_offset = "    ";
+    //$log_offset = "    ";
+    $log_offset = $logger->ajouter_tab_offset();
     $res = parse($param, false, false, $log_offset);
-    $log_offset = "";
+    //$log_offset = "";
+    $log_offset =  $logger->supprimer_tab_offset();
     $logger->setOffset($log_offset);
     return cos($res);
 }
@@ -295,9 +389,11 @@ function fc_cos($param) {
 function fc_tan($param) {
     global $logger;
     global $pile_operandes;
-    $log_offset = "    ";
+    //$log_offset = "    ";
+    $log_offset = $logger->ajouter_tab_offset();
     $res = parse($param, false, false, $log_offset);
-    $log_offset = "";
+    //$log_offset = "";
+    $log_offset = $logger->supprimer_tab_offset();
     $logger->setOffset($log_offset);
     return tan($res);
 }
@@ -305,9 +401,11 @@ function fc_tan($param) {
 function fc_log($param) {
     global $logger;
     global $pile_operandes;
-    $log_offset = "    ";
+    //$log_offset = "    ";
+    $log_offset = $logger->ajouter_tab_offset();
     $res = parse($param, false, false, $log_offset);
-    $log_offset = "";
+    //$log_offset = "";
+    $log_offset = $logger->supprimer_tab_offset();
     $logger->setOffset($log_offset);
     return log($res, 10);
 }
@@ -315,9 +413,11 @@ function fc_log($param) {
 function fc_exp($param) {
     global $logger;
     global $pile_operandes;
-    $log_offset = "    ";
+    //$log_offset = "    ";
+    $log_offset = $logger->ajouter_tab_offset();
     $res = parse($param, false, false, $log_offset);
-    $log_offset = "";
+    //$log_offset = "";
+    $log_offset = $logger->supprimer_tab_offset();
     $logger->setOffset($log_offset);
     return exp($res);
 }
@@ -339,7 +439,13 @@ function calcul_as_array($calcul) {
             $arr[$index] = $char;
             $index++;
         } else if($char == "=" && ($arr[$index-1] == "<" || $arr[$index-1] == ">")) {
-            $arr[$index-1] .= "=";
+            $arr[$index - 1] .= "=";
+        } else if($char == "=" && ($calcul[$i+1] == "=" || $calcul[$i-1] == "=")) {
+            if($arr[$index] !== "=")
+                $index++;
+            $arr[$index] .= "=";
+            if($arr[$index] == "==")
+                $index++;
         } else {
             if(!isset($arr[$index]))
                 $arr[$index] = "";
@@ -352,7 +458,7 @@ function calcul_as_array($calcul) {
 
 function is_operande($pile_operandes) {
     foreach($pile_operandes as $ope) {
-        if($ope == "*" || $ope == "+" || $ope == "-" || $ope == "/" || $ope == ">" || $ope == "<" || $ope == ">=" || $ope == "<=") {
+        if($ope == "*" || $ope == "+" || $ope == "-" || $ope == "/" || $ope == ">" || $ope == "<" || $ope == ">=" || $ope == "<=" || $ope == "==") {
             return true;
         }
     }

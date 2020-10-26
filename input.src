@@ -27,3 +27,14 @@ if(3 <= 3) {
     2+3
     4+5
 }
+
+print "\n----- Variables -----"
+$var = 5
+$var2 = 8
+2 + $var * $var2
+
+print "\n----- POUR ------"
+for($i = [1;3])
+    2 + 3
+    2 / $i
+endfor

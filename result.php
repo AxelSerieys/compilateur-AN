@@ -1,3 +1,10 @@
+<br/>
+<a href='log.txt' download>
+    <input type='button' value="Télécharger de compte rendu d'exécution"/>
+</a>
+
+<input type="button" value="Retour" onclick="history.back()"><br/><br/>
+
 <?php
 
 const FILE_COMPIL = "test.src";
@@ -39,9 +46,3 @@ if($file = fopen(FILE_COMPIL, "r")) {
 $logger->fin();
 
 ?>
-<br/>
-<a href='log.txt' download>
-    <input type='button' value="Télécharger de compte rendu d'exécution"/>
-</a>
-
-<input type="button" value="Retour" onclick="history.back()">

@@ -36,7 +36,7 @@ class Logger {
     }
 
     function erreur($string, $line, $col) {
-        $this->log_write("ERREUR", $string . " À LA LIGNE $line, COLONNE $col");
+        $this->log_write("ERREUR", $string . " À LA LIGNE $line, COLONNE $col", true);
         $this->log_write("FIN", "==========");
     }
 
@@ -44,7 +44,20 @@ class Logger {
         $this->offset = $offset;
     }
 
+    function ajouter_tab_offset() {
+        $this->offset = str_repeat(" ", strlen($this->offset) + 4);
+        return $this->offset;
+    }
+
+    function supprimer_tab_offset() {
+        if(strlen($this->offset) >= 4)
+            $this->offset = substr($this->offset, 0, strlen($this->offset)-4);
+        return $this->offset;
+    }
+
     function fin() {
+        global $VARIABLES;
+        $this->log("État des variables : " . json_encode($VARIABLES));
         $this->log("FIN DE LA COMPILATION (" . date('d/m/yy - H:i:s') . ")");
     }
 
@@ -56,6 +69,14 @@ class Logger {
         $this->log_write("DEBUG", $string);
     }
 
+    function cond($string, $res) {
+        $this->log_write("CONDITION", "$string == $res");
+    }
+
+    function var($name, $val) {
+        $this->log_write("VARIABLE", "$$name = $val");
+    }
+
     function print($string) {
         $this->log_write("PRINT", $string);
     }
@@ -64,13 +85,19 @@ class Logger {
         $this->log_write("ENTRÉE", $string);
     }
 
+    function pour($var, $val) {
+        $this->log_write("POUR", "$var = $val");
+    }
+
     function print_empty_line() {
         file_put_contents($this->FILE_NAME, "\n", FILE_APPEND);
     }
 
-    function log_write($title, $string) {
+    function log_write($title, $string, $echo = false) {
         $toprint = "$this->offset[$title] : $string\n";
         file_put_contents($this->FILE_NAME, $toprint, FILE_APPEND);
+        if($echo)
+            echo "$toprint<br/>";
     }
 
     function empty_log() {

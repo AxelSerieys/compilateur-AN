@@ -27,6 +27,8 @@ function demarrer_tests() {
     test13();
     test14();
     test15();
+    test16();
+    test17();
 
     conclusion();
 }
@@ -101,6 +103,10 @@ function test12() {
     $calc = "cos(2*%pi%)";
     $expected = 1;
     test_wrapper($calc, $expected);
+
+    $calc = "%pi% * %pi%";
+    $expected = 9.8696044010894;
+    test_wrapper($calc, $expected);
 }
 
 function test13() {
@@ -159,6 +165,46 @@ function test15() {
     test_wrapper($calc, $expected);
 }
 
+function test16() {
+    $calc = '$var = 4';
+    $expected = NULL;
+    test_wrapper($calc, $expected);
+
+    $calc = '$var2=8';
+    $expected = NULL;
+    test_wrapper($calc, $expected);
+
+    $calc = '$var*$var2';
+    $expected = 32;
+    test_wrapper($calc, $expected);
+}
+
+function test17() {
+    $calc = '2 == 2';
+    $expected = "true";
+    test_wrapper($calc, $expected);
+
+    $calc = '2 == 3';
+    $expected = "false";
+    test_wrapper($calc, $expected);
+
+    $calc = '2==2';
+    $expected = "true";
+    test_wrapper($calc, $expected);
+
+    $calc = '2.5==2.5';
+    $expected = "true";
+    test_wrapper($calc, $expected);
+
+    $calc = '2.5==2.45';
+    $expected = "false";
+    test_wrapper($calc, $expected);
+
+    $calc = '2*%pi% == 6.2831853071796';
+    $expected = "true";
+    test_wrapper($calc, $expected);
+}
+
 function conclusion() {
     global $logger, $SUCCES, $ECHECS;
     $ccl = "SUCCÈS : $SUCCES, ECHECS : $ECHECS";
@@ -173,21 +219,21 @@ function test_wrapper($calc, $expected) {
     $ret = parse($calc, false);
     if(is_string($ret)) {
         if($ret == $expected) {
-            echo "Succès<br/>";
+            echo "TEST-$testId : Succès<br/>";
             $logger->resultat("SUCCÈS\n", false);
             $SUCCES++;
         } else {
-            echo "Erreur<br/>";
+            echo "TEST-$testId : ERREUR : Obtenu '$ret' mais attendu '$expected'<br/>";
             $logger->resultat("ERREUR : Obtenu '$ret' mais attendu '$expected'.\n", false);
             $ECHECS++;
         }
     } else {
         if (round($ret, $PRECISION) == round($expected, $PRECISION)) {
-            echo "Succès<br/>";
+            echo "TEST-$testId : Succès<br/>";
             $logger->resultat("SUCCÈS\n", false);
             $SUCCES++;
         } else {
-            echo "Erreur<br/>";
+            echo "TEST-$testId : ERREUR : Obtenu '" . round($ret, $PRECISION) . "' mais attendu '" . round($expected, $PRECISION) . "'<br/>";
             $logger->resultat("ERREUR : Obtenu '" . round($ret, $PRECISION) . "' mais attendu '" . round($expected, $PRECISION) . "'.\n", false);
             $ECHECS++;
         }
