@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(0);
+
 $VARIABLES = array();
 $in_for = false;
 $for_variable = NULL;
