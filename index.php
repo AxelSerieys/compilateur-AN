@@ -19,22 +19,25 @@
 		<form action="result.php" method="POST" enctype="multipart/form-data">
 			<div>
 				<textarea placeholder="Renseignez ici vos calculs &agrave; compiler" name="texte" id="texte"></textarea>
-				<p>
-					Bienvenue sur cette page de compilateur de notation polonaise ! 
-					Remplissez vous m&ecirc;me votre code dans la zone pr&eacute;vue pour, ou bien choisissez un fichier contenant votre code et uploadez le afin de le compiler !
-					</br></br>Vous aurez ensuite la possibilit&eacute; de t&eacute;l&eacute;charger le r&eacute;sultat sur votre machine.
-				</p>
 			</div>
-			<input type="file" name="file" id="file"/><br/><br/><br/>
+			<input type="file" name="file" id="file"/><br/><br/>
 			<input type="submit" value="Compiler"/>
 		</form>
+		<p>
+					Bienvenue sur cette page de compilateur de notation polonaise ! 
+					Remplissez vous m&ecirc;me votre code dans la zone pr&eacute;vue pour,
+					ou bien choisissez un fichier contenant votre code et uploadez le afin de le compiler !
+					</br></br>Vous aurez ensuite la possibilit&eacute; de t&eacute;l&eacute;charger le r&eacute;sultat sur votre machine.
+		</p>
 	</div>
 
 	<div id="explications">
-		<h2>Qu'est ce que la notation polonaise ?</h2>
+		<h2>Qu'est ce que la notation polonaise inverse ?</h2> 
 		La notation polonaise inverse (NPI) (en anglais RPN pour Reverse Polish Notation), également connue sous le nom de notation post-fixée, permet d'écrire de façon non ambiguë les formules arithmétiques sans utiliser de parenthèses. Dérivée de la notation polonaise présentée en 1924 par le mathématicien polonais Jan Łukasiewicz, elle s’en différencie par l’ordre des termes, les opérandes y étant présentés avant les opérateurs et non l’inverse.
-		</br></br>Source : <a href=https://fr.wikipedia.org/wiki/Notation_polonaise_inverse target="_blank">https://fr.wikipedia.org/wiki/Notation_polonaise_inverse</a>
+		<br/><br/>
+		Source : <a href=https://fr.wikipedia.org/wiki/Notation_polonaise_inverse target="_blank">https://fr.wikipedia.org/wiki/Notation_polonaise_inverse</a>
 	</div>
+
     <script type="text/javascript" src="script.js"></script>
 </body>
 <script>
