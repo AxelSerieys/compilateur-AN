@@ -1,10 +1,14 @@
-<br/>
-<a href='log.txt' download>
-    <input type='button' value="Télécharger de compte rendu d'exécution"/>
-</a>
+<html>
+    <head>
+        <link rel="icon" type="image/jpeg" href="3il.jpeg" />
+        <link rel="stylesheet" type="text/css" href="result.css" />
+    </head>
+    <body>
+        <a href='log.txt' download>
+            <input type='button' value="Télécharger de compte rendu d'exécution"/>
+        </a>
 
-<input type="button" value="Retour" onclick="history.back()"><br/><br/>
-
+        <input type="button" value="Retour" onclick="history.back()"><br/><br/>
 <?php
 
 const FILE_COMPIL = "test.src";
@@ -37,7 +41,7 @@ if($file = fopen(FILE_COMPIL, "r")) {
         if(substr(trim($line), 0, 2) !== "//" && strlen(trim($line)) > 0) {
             $res = parse($line);
             if($res !== false ) {
-                echo "$line = $res<br/>";
+                echo "<div class='resultat'>$line = $res</div>";
             }
         }
     }
@@ -46,3 +50,5 @@ if($file = fopen(FILE_COMPIL, "r")) {
 $logger->fin();
 
 ?>
+    </body>
+</html>

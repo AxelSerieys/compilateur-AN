@@ -7,7 +7,7 @@ print "Même équation avec et sans parentèses"
 
 23 + 27 / 001
 
-print "\n----- Test des fonctions -----"
+print "\n\n----- Test des fonctions -----"
 sin((3+4)*5 + 2)
 3 * sin((3+4)*5 + 2)
 cos((3+4)*5)
@@ -19,21 +19,21 @@ cos(0)
 cos(2*%pi%)
 exp(5+2) * 2
 
-print "\n----- Utilisation d'une variable de préprocesseur -----"
+print "\n\n----- Utilisation d'une variable de préprocesseur -----"
 2*%pi%
 
-print "\n----- Conditions -----"
+print "\n\n----- Conditions -----"
 if(3 <= 3) {
     2+3
     4+5
 }
 
-print "\n----- Variables -----"
+print "\n\n----- Variables -----"
 $var = 5
 $var2 = 8
 2 + $var * $var2
 
-print "\n----- POUR ------"
+print "\n\n----- POUR ------"
 for($i = [1;3])
     2 + 3
     2 / $i

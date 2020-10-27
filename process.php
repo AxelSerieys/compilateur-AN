@@ -48,8 +48,6 @@ function parse($string, $print_result = true, $in_function = false, $log_offset 
             $in_for = false;
             while(sizeof($for_values) != 0) {
                 $VARIABLES[$for_variable] = array_shift($for_values);
-                /*$log_offset = "";
-                $logger->setOffset("");*/
                 $logger->supprimer_tab_offset();
                 $logger->pour("$$for_variable", $VARIABLES[$for_variable]);
                 for($ligne = 0; $ligne < sizeof($for_instructions); $ligne++) { // Pour chaque
