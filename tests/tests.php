@@ -1,3 +1,17 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../tests.css" />
+</head>
+<body>
+    <a href='tests.log' download>
+        <input type='button' value="Télécharger de compte rendu d'exécution"/>
+    </a>
+
+    <input type="button" value="Retour" onclick="history.back()"><br/><br/>
+
+    <table class="test-CR">
+        <tr><th>Test</th><th>Résultat</th></tr>
 <?php
 
 require_once "../process.php";
@@ -31,11 +45,12 @@ function demarrer_tests() {
     test17();
 
     conclusion();
+    echo "</table></body></html>";
 }
 
 function test1() {
     $calc = "2+3";
-    $expected = 5;
+    $expected = 6;
     test_wrapper($calc, $expected);
 }
 
@@ -47,7 +62,7 @@ function test2() {
 
 function test3() {
     $calc = "2 + 6 * (3 - 4)";
-    $expected = -4;
+    $expected = -41;
     test_wrapper($calc, $expected);
 }
 
@@ -210,7 +225,7 @@ function conclusion() {
     $ccl = "SUCCÈS : $SUCCES, ECHECS : $ECHECS";
     $logger->fin();
     $logger->log($ccl);
-    echo "<br/>$ccl";
+    echo "<div style='font-weight: bold;'><br/>$ccl</div>";
 }
 
 function test_wrapper($calc, $expected) {
@@ -219,31 +234,33 @@ function test_wrapper($calc, $expected) {
     $ret = parse($calc, false);
     if(is_string($ret)) {
         if($ret == $expected) {
-            echo "TEST-$testId : Succès<br/>";
+            $etat = "Succès";
+            $idEtat = 0;
             $logger->resultat("SUCCÈS\n", false);
             $SUCCES++;
         } else {
-            echo "TEST-$testId : ERREUR : Obtenu '$ret' mais attendu '$expected'<br/>";
+            $idEtat = 1;
+            $etat = "TEST-$testId : ERREUR : Obtenu '$ret' mais attendu '$expected'<br/>";
             $logger->resultat("ERREUR : Obtenu '$ret' mais attendu '$expected'.\n", false);
             $ECHECS++;
         }
     } else {
         if (round($ret, $PRECISION) == round($expected, $PRECISION)) {
-            echo "TEST-$testId : Succès<br/>";
+            $idEtat = 0;
+            $etat = "Succès";
             $logger->resultat("SUCCÈS\n", false);
             $SUCCES++;
         } else {
-            echo "TEST-$testId : ERREUR : Obtenu '" . round($ret, $PRECISION) . "' mais attendu '" . round($expected, $PRECISION) . "'<br/>";
+            $idEtat = 1;
+            $etat = "TEST-$testId : ERREUR : Obtenu '" . round($ret, $PRECISION) . "' mais attendu '" . round($expected, $PRECISION) . "'<br/>";
             $logger->resultat("ERREUR : Obtenu '" . round($ret, $PRECISION) . "' mais attendu '" . round($expected, $PRECISION) . "'.\n", false);
             $ECHECS++;
         }
     }
+
+    echo "<tr><td>TEST-$testId</td><td class='";
+    echo ($idEtat == 0) ? "succes" : "echec";
+    echo "'>$etat</td></tr>";
 }
 
 ?>
-<br/>
-<a href='tests.log' download>
-    <input type='button' value="Télécharger de compte rendu d'exécution"/>
-</a>
-
-<input type="button" value="Retour" onclick="history.back()">

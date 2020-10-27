@@ -1,10 +1,10 @@
-[LOG] : DÉBUT DE LA COMPILATION (25/10/2020 - 15:10:08)
+[LOG] : DÉBUT DE LA COMPILATION (27/10/2020 - 19:36:26)
 [TEST-1] : 2+3
 [ENTRÉE] : 2+3
 [RPN] : 2 3 +
 [CALCUL] : 2+3
 [RESULTAT] : 5
-[RESULTAT] : SUCCÈS
+[RESULTAT] : ERREUR : Obtenu '5' mais attendu '6'.
 
 [TEST-2] : sin(5)
 [ENTRÉE] : sin(5)
@@ -21,7 +21,7 @@
 [CALCUL] : 6*-1
 [CALCUL] : 2+-6
 [RESULTAT] : -4
-[RESULTAT] : SUCCÈS
+[RESULTAT] : ERREUR : Obtenu '-4' mais attendu '-41'.
 
 [TEST-4] : 2 + 6 * 3 - 4
 [ENTRÉE] : 2 + 6 * 3 - 4
@@ -117,16 +117,153 @@
 [RESULTAT] : 1
 [RESULTAT] : SUCCÈS
 
-[TEST-13] : print "Test"
+[TEST-13] : %pi% * %pi%
+[ENTRÉE] : 3.1415926535898 * 3.1415926535898
+[RPN] : 3.1415926535898 3.1415926535898 *
+[CALCUL] : 3.1415926535898*3.1415926535898
+[RESULTAT] : 9.8696044010894
+[RESULTAT] : SUCCÈS
+
+[TEST-14] : print "Test"
+[ENTRÉE] : print "Test"
 [PRINT] : Test
 [RESULTAT] : SUCCÈS
 
-[TEST-14] : 3 > 2
+[TEST-15] : 3 > 2
 [ENTRÉE] : 3 > 2
 [RPN] : 3 2 >
 [CALCUL] : 3>2
 [RESULTAT] : true
 [RESULTAT] : SUCCÈS
 
-[LOG] : FIN DE LA COMPILATION (25/10/2020 - 15:10:08)
-[LOG] : SUCCÈS : 14, ECHECS : 0
+[TEST-16] : 3 > 4
+[ENTRÉE] : 3 > 4
+[RPN] : 3 4 >
+[CALCUL] : 3>4
+[RESULTAT] : false
+[RESULTAT] : SUCCÈS
+
+[TEST-17] : 3 >= 3
+[ENTRÉE] : 3 >= 3
+[RPN] : 3 3 >=
+[CALCUL] : 3>=3
+[RESULTAT] : true
+[RESULTAT] : SUCCÈS
+
+[TEST-18] : 2 < 2
+[ENTRÉE] : 2 < 2
+[RPN] : 2 2 <
+[RESULTAT] : false
+[RESULTAT] : SUCCÈS
+
+[TEST-19] : 2 <= 2
+[ENTRÉE] : 2 <= 2
+[RPN] : 2 2 <=
+[CALCUL] : 2<=2
+[RESULTAT] : true
+[RESULTAT] : SUCCÈS
+
+[TEST-20] : if(2 > 1) {
+[ENTRÉE] : if(2 > 1) {
+[ENTRÉE] : 2 > 1
+[RPN] : 2 1 >
+[CALCUL] : 2>1
+[RESULTAT] : true
+[CONDITION] : 2 > 1 == true
+[RESULTAT] : SUCCÈS
+
+[TEST-21] : 2+3
+[ENTRÉE] : 2+3
+[RPN] : 2 3 +
+[CALCUL] : 2+3
+[RESULTAT] : 5
+[RESULTAT] : SUCCÈS
+
+[TEST-22] : }
+[ENTRÉE] : }
+[RESULTAT] : SUCCÈS
+
+[TEST-23] : if(2 > 3) {
+[ENTRÉE] : if(2 > 3) {
+[ENTRÉE] : 2 > 3
+[RPN] : 2 3 >
+[CALCUL] : 2>3
+[RESULTAT] : false
+[CONDITION] : 2 > 3 == false
+[RESULTAT] : SUCCÈS
+
+[TEST-24] : 2+3
+[ENTRÉE] : 2+3
+[RESULTAT] : SUCCÈS
+
+[TEST-25] : }
+[ENTRÉE] : }
+[RESULTAT] : SUCCÈS
+
+[TEST-26] : $var = 4
+[ENTRÉE] : $var = 4
+[ENTRÉE] : 4
+[RESULTAT] : 4
+[VARIABLE] : $var = 4
+[RESULTAT] : SUCCÈS
+
+[TEST-27] : $var2=8
+[ENTRÉE] : $var2=8
+[ENTRÉE] : 8
+[RESULTAT] : 8
+[VARIABLE] : $var2 = 8
+[RESULTAT] : SUCCÈS
+
+[TEST-28] : $var*$var2
+[ENTRÉE] : $var*$var2
+[RPN] : 4 8 *
+[CALCUL] : 4*8
+[RESULTAT] : 32
+[RESULTAT] : SUCCÈS
+
+[TEST-29] : 2 == 2
+[ENTRÉE] : 2 == 2
+[RPN] : 2 2 ==
+[CALCUL] : 2 == 2
+[RESULTAT] : true
+[RESULTAT] : SUCCÈS
+
+[TEST-30] : 2 == 3
+[ENTRÉE] : 2 == 3
+[RPN] : 2 3 ==
+[CALCUL] : 2 == 3
+[RESULTAT] : false
+[RESULTAT] : SUCCÈS
+
+[TEST-31] : 2==2
+[ENTRÉE] : 2==2
+[RPN] : 2 2 ==
+[CALCUL] : 2 == 2
+[RESULTAT] : true
+[RESULTAT] : SUCCÈS
+
+[TEST-32] : 2.5==2.5
+[ENTRÉE] : 2.5==2.5
+[RPN] : 2.5 2.5 ==
+[CALCUL] : 2.5 == 2.5
+[RESULTAT] : true
+[RESULTAT] : SUCCÈS
+
+[TEST-33] : 2.5==2.45
+[ENTRÉE] : 2.5==2.45
+[RPN] : 2.5 2.45 ==
+[CALCUL] : 2.5 == 2.45
+[RESULTAT] : false
+[RESULTAT] : SUCCÈS
+
+[TEST-34] : 2*%pi% == 6.2831853071796
+[ENTRÉE] : 2*3.1415926535898 == 6.2831853071796
+[RPN] : 2 3.1415926535898 * 6.2831853071796 ==
+[CALCUL] : 2*3.1415926535898
+[CALCUL] : 6.2831853071796 == 6.2831853071796
+[RESULTAT] : true
+[RESULTAT] : SUCCÈS
+
+[LOG] : État des variables : {"var":"4","var2":"8"}
+[LOG] : FIN DE LA COMPILATION (27/10/2020 - 19:36:26)
+[LOG] : SUCCÈS : 32, ECHECS : 2
