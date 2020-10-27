@@ -1,0 +1,24 @@
+html, body {
+    width: 99% !important;
+}
+
+.test-CR tr {
+    width: 100%;
+}
+
+.test-CR th {
+    width: 400px;
+}
+
+.succes {
+    background-color: lightgreen;
+}
+
+.echec {
+    background-color: lightcoral;
+}
+
+.test-CR td, th {
+    border: 1px solid black;
+    text-align: center;
+}

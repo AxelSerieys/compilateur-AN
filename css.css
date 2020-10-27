@@ -18,7 +18,6 @@ body
     background-color: rgb(151, 185, 247);  
     margin: auto;
 }
-}
 
 textarea, button {
     display: flex;
