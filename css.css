@@ -36,6 +36,5 @@ p {
 }
 
 input[name="file"] {
-    width: 86px;
     overflow:visible;
 }
