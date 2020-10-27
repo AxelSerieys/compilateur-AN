@@ -1,6 +1,6 @@
 <?php
 
-error_reporting(0);
+error_reporting(E_ERROR | E_PARSE);
 
 $VARIABLES = array();
 $in_for = false;
