@@ -10,18 +10,16 @@ html{
 body
 {
     width: 98%;
-    padding: 0px;
-
-    display: flex;
-    flex-direction: column;
-
+    padding: 0px;    
+    flex-direction: row;
+    flex-wrap: wrap;    
     justify-content: center;
-    background-color: burlywood  
+    background-color: burlywood ;
     margin: auto;
 }
 
 textarea, button {
-    display: flex;
+    
     margin-left: auto;
     margin-right: auto;
 }
@@ -33,23 +31,21 @@ textarea {
 }
 
 p {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin-top: 10px;
-    margin-left: 10px;    
+    display: inline-block;    
+    margin-top: 1.5%;
+    margin-left: 10px;
+    text-align: left; 
+    position: absolute;
+    width: 30%;
 }
 
 h1 {
-    display: flex;
-    margin-bottom: 10px;
-    justify-content: center;
+    text-align: center;
+    margin-bottom: 10px;    
 }
 
 .explications {
-    display: flex;
-    justify-content: center;
-    align-content: center;
+    display: flex;   
 
 }
 

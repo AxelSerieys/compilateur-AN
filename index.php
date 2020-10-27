@@ -13,19 +13,22 @@
 <body>
 
     <div name="titre">
-        <h1>Bienvenue !</h1>
+		<h1>Bienvenue !</h1>
     </div>
 
 	<div id="form">
 		<form action="result.php" method="POST" enctype="multipart/form-data">
 			<div>
+			
+
+				<textarea placeholder="Renseignez ici vos calculs &agrave; compiler" name="texte" id="texte"></textarea>
 			<p>
 					Bienvenue sur cette page de compilateur de notation polonaise ! 
 					Remplissez vous m&ecirc;me votre code dans la zone pr&eacute;vue pour,
 					ou bien choisissez un fichier contenant votre code et uploadez le afin de le compiler !
 					</br></br>Vous aurez ensuite la possibilit&eacute; de t&eacute;l&eacute;charger le r&eacute;sultat sur votre machine.
-		</p>
-				<textarea placeholder="Renseignez ici vos calculs &agrave; compiler" name="texte" id="texte"></textarea>
+			</p>
+
 			</div>
 			<input type="file" name="file" id="file"/><br/><br/>
 			<input type="submit" value="Compiler"/>
