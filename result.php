@@ -5,7 +5,7 @@
     </head>
     <body>
         <a href='log.txt' download>
-            <input type='button' value="Télécharger de compte rendu d'exécution"/>
+            <input type='button' value="Télécharger le compte rendu d'exécution"/>
         </a>
 
         <input type="button" value="Retour" onclick="history.back()"><br/><br/>
