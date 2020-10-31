@@ -6,9 +6,9 @@
     <meta charset="utf-8" />
 	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
     <META HTTP-EQUIV="Expires" CONTENT="-1">
-	<link rel="icon" type="image/jpeg" href="3il.jpeg" />
+	<link rel="icon" type="image/jpeg" href="res/img/3il.jpeg" />
     <title>Compilateur notation polonaise</title>
-    <link rel="stylesheet" type="text/css" href="css.css" />
+    <link rel="stylesheet" type="text/css" href="res/css/index.css" />
 </head>
 <body>
 
@@ -44,6 +44,10 @@
 	</div>
 
     <script type="text/javascript" src="script.js"></script>
+
+<footer>
+	Réalisé par Benoit KROK, Mathéo PORTUESE et Axel SERIEYS en deuxième année à 3iL.
+</footer>
 </body>
 <script>
 document.getElementById('file').addEventListener('change', function() 

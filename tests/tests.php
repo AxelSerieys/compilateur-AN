@@ -1,8 +1,8 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="../tests.css" />
-    <link rel="icon" type="image/jpeg" href="../3il.jpeg" />
+    <link rel="stylesheet" type="text/css" href="../res/css/tests.css" />
+    <link rel="icon" type="image/jpeg" href="../res/img/3il.jpeg" />
 </head>
 <body>
     <a href='tests.log' download>

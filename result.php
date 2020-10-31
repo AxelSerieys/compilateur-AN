@@ -1,7 +1,7 @@
 <html>
     <head>
-        <link rel="icon" type="image/jpeg" href="3il.jpeg" />
-        <link rel="stylesheet" type="text/css" href="result.css" />
+        <link rel="icon" type="image/jpeg" href="res/img/3il.jpeg" />
+        <link rel="stylesheet" type="text/css" href="res/css/result.css" />
     </head>
     <body>
         <a href='log.txt' download>
