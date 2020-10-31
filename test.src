@@ -1,3 +1,0 @@
-for($variable = [0;2])
-    sin(($variable + 1)*2)
-endfor
