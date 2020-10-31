@@ -31,6 +31,7 @@ function parse($string, $print_result = true, $in_function = false, $log_offset 
     $PRIORITES["<="] = 4;
     $PRIORITES["=="] = 4;
     $PRIORITES["=="] = 4;
+    $PRIORITES["%"] = 5;
 
     // PREPROCESSEUR
     $string = str_replace("%pi%", pi(), $string);
@@ -298,6 +299,10 @@ function parse($string, $print_result = true, $in_function = false, $log_offset 
                             $logger->calcul("$ope1 == $ope2");
                             $pile_operandes[$i] = ($ope1 == $ope2) ? "true" : "false";
                             break;
+                        case "%":
+                            $logger->calcul("$ope1 % $ope2");
+                            $pile_operandes[$i] = ($ope1 % $ope2);
+                            break;
                         default:
                             $logger->erreur("OPERATION INCONNUE : '" . $operation . "'", $LINE, $COL);
                             die();
@@ -433,7 +438,7 @@ function calcul_as_array($calcul) {
 
         // Tous les caractères qui peuvent séparer les nombres
         if($char == "+" || $char == "-" || $char == "/" || $char == "*" || $char == "(" || $char == ")" || $char == ">"
-        || $char == "<") {
+        || $char == "<" || $char == "%") {
             if (strlen($arr[$index]) > 0)
                 $index++;
             $arr[$index] = $char;
@@ -458,7 +463,7 @@ function calcul_as_array($calcul) {
 
 function is_operande($pile_operandes) {
     foreach($pile_operandes as $ope) {
-        if($ope == "*" || $ope == "+" || $ope == "-" || $ope == "/" || $ope == ">" || $ope == "<" || $ope == ">=" || $ope == "<=" || $ope == "==") {
+        if($ope == "*" || $ope == "+" || $ope == "-" || $ope == "/" || $ope == ">" || $ope == "<" || $ope == ">=" || $ope == "<=" || $ope == "==" || $ope == "%") {
             return true;
         }
     }
