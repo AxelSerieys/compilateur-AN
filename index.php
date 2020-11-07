@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<?php header("Cache-Control: no-cache, must-revalidate"); ?>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta charset="utf-8" />
 	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
@@ -46,12 +46,11 @@
     <script type="text/javascript" src="script.js"></script>
 
 <footer>
-	Réalisé par Benoit KROK, Mathéo PORTUESE et Axel SERIEYS en deuxième année à 3iL.
+    Réalisé par&nbsp;<div>Axel SERIEYS</div>,&nbsp;<div>Benoit KROK</div>&nbsp;et&nbsp;<div>Mathéo PORTUESE</div>&nbsp;en deuxième année à 3iL.
 </footer>
 </body>
 <script>
-document.getElementById('file').addEventListener('change', function() 
-{ 
+document.getElementById('file').addEventListener('change', function() {
     var fr=new FileReader(); 
     fr.onload=function(){ 
         document.getElementById('texte').innerHTML=fr.result; 
